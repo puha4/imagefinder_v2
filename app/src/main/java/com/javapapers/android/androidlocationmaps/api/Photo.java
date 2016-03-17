@@ -1,15 +1,15 @@
 package com.javapapers.android.androidlocationmaps.api;
 
 public class Photo {
-    public String id;
-    public String owner;
-    public String secret;
-    public String server;
-    public int farm;
-    public String title;
-    public int ispublic;
-    public int isfriend;
-    public int isfamily;
+    private String id;
+    private String owner;
+    private String secret;
+    private String server;
+    private int farm;
+    private String title;
+    private int ispublic;
+    private int isfriend;
+    private int isfamily;
 
     public String getId() {
         return id;

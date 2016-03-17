@@ -72,7 +72,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void onResponse(Response<FlickrPhotos> response, Retrofit retrofit) {
         Log.i(TAG, response.toString()+ " ");
-        for (Photo photo : response.body().photos.getPhoto()) {
+        for (Photo photo : response.body().getPhotos().getPhoto()) {
             Log.i(TAG, photo.toString());
         }
     }

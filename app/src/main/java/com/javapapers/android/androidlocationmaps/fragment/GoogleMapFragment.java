@@ -138,27 +138,23 @@ public class GoogleMapFragment extends Fragment implements
         options.icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(mLastUpdateTime)));
         options.anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
 
-
         this.latitude = mCurrentLocation.getLatitude();
         this.longitude = mCurrentLocation.getLongitude();
 
         LatLng currentLatLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
         options.position(currentLatLng);
-//        Marker mapMarker = googleMap.addMarker(options);
 
 
         long atTime = mCurrentLocation.getTime();
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date(atTime));
 
-        Marker mapMarker = googleMap.addMarker(new MarkerOptions()
+        googleMap.addMarker(new MarkerOptions()
                 .position(currentLatLng)
                 .title(mLastUpdateTime)
                 .snippet("You are here")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-//        mapMarker.setTitle(mLastUpdateTime);
-        Log.d(TAG, "Marker added.............................");
+
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 13));
-        Log.d(TAG, "Zoom done.............................");
     }
 
     protected void stopLocationUpdates() {

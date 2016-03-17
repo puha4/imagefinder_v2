@@ -1,9 +1,7 @@
 package com.javapapers.android.androidlocationmaps.api;
 
-import java.util.List;
-
 public class FlickrPhotos {
-    public Photos photos;
+    private Photos photos;
 
     public Photos getPhotos() {
         return photos;

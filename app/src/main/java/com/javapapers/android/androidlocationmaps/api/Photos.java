@@ -8,7 +8,7 @@ public class Photos {
     private int pages;
     private int perpage;
     private int total;
-    public List<Photo> photo;
+    private List<Photo> photo;
 
     public int getPage() {
         return page;
