@@ -1,25 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:card="http://schemas.android.com/apk/res-auto"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
-
-    <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/cardView"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:layout_margin="20dp"
-            card:cardElevation="2dp"
-            card:cardUseCompatPadding="true">
+              android:layout_height="110dp">
 
         <fragment
                 android:id="@+id/map"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                class="com.google.android.gms.maps.SupportMapFragment"/>
 
-    </android.support.v7.widget.CardView>
+                class="com.google.android.gms.maps.SupportMapFragment"/>
 
 </LinearLayout>

@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
+import com.javapapers.android.androidlocationmaps.MainActivity;
 import com.javapapers.android.androidlocationmaps.R;
 
 import java.text.DateFormat;
@@ -43,11 +44,11 @@ public class GoogleMapFragment extends Fragment implements
     private Location mCurrentLocation;
     private String mLastUpdateTime;
     private double latitude;
-
     private double longitude;
-    private static final long INTERVAL = 1000 * 60 * 10; //1 minute
 
+    private static final long INTERVAL = 1000 * 60 * 10; //10 minute
     private static final long FASTEST_INTERVAL = 1000 * 60 * 1; // 1 minute
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class GoogleMapFragment extends Fragment implements
         SupportMapFragment fm = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
         googleMap = fm.getMap();
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
+        googleMap.getUiSettings().setZoomControlsEnabled(false);
 
         return view;
     }
@@ -140,6 +141,8 @@ public class GoogleMapFragment extends Fragment implements
 
         this.latitude = mCurrentLocation.getLatitude();
         this.longitude = mCurrentLocation.getLongitude();
+
+        ((MainActivity) getActivity()).sendRequest();
 
         LatLng currentLatLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
         options.position(currentLatLng);

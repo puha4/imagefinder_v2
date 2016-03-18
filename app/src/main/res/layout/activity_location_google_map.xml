@@ -2,8 +2,16 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               tools:context=".TaskRoadMap">
+
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark"
+            android:background="@color/colorPrimary" />
 
     <LinearLayout
             android:id="@+id/mapContainer"
@@ -13,11 +21,18 @@
 
     </LinearLayout>
 
+    <com.jake.quiltview.QuiltView
+            android:id="@+id/quilt"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:scrollOrientation="vertical">
+
+    </com.jake.quiltview.QuiltView>
+
 
     <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search"
-            android:onClick="onSearchClick"/>
+            android:text="Search"/>
 
 </LinearLayout>
