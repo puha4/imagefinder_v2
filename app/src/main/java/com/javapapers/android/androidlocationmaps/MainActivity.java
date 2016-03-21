@@ -142,10 +142,10 @@ public class MainActivity extends AppCompatActivity {
 
         if(frob != null) {
 //            Log.i(TAG + "callGetTok", apiSig);
-            Log.i(TAG + "callGetTok", frob);
+            Log.i(TAG + "callGetfrob", frob);
             String apS = new String(Hex.encodeHex(DigestUtils.md5("6e732ab8487b05e4api_key5f45c46eaf6e87b55c9f36fec03e3466frob"+frob+"methodflickr.auth.getToken")));
             Log.i(TAG + "apS", apS);
-            Call<String> callGetToken = searchApi.getToken(frob, "json",1, apS);
+            Call<String> callGetToken = searchApi.getToken(frob, apS);
             callGetToken.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Response<String> response, Retrofit retrofit) {
