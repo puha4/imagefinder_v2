@@ -6,8 +6,13 @@ import retrofit.http.Query;
 
 public interface SearchApi {
 
-    @GET("/services/auth/?api_key=5f45c46eaf6e87b55c9f36fec03e3466&format=json&nojsoncallback=1&perms=write")
-    Call<String> doAuth(@Query("api_sig") String apiSig);
+    @GET("/services/rest/?method=flickr.auth.getToken&api_key=5f45c46eaf6e87b55c9f36fec03e3466")
+    Call<String> getToken(
+            @Query("frob") String frob,
+            @Query("format") String format,
+            @Query("nojsoncallback") int nojsoncallback,
+            @Query("api_sig") String apiSig
+    );
 
     @GET("/services/rest/?method=flickr.photos.search&api_key=5f45c46eaf6e87b55c9f36fec03e3466&format=json&nojsoncallback=1")
     Call<FlickrPhotos> getPhotos(

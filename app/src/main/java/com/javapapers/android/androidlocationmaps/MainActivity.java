@@ -3,7 +3,6 @@ package com.javapapers.android.androidlocationmaps;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,18 +12,17 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.jake.quiltview.QuiltView;
 import com.javapapers.android.androidlocationmaps.api.FlickrPhotos;
+import com.javapapers.android.androidlocationmaps.api.LoggingInterceptor;
 import com.javapapers.android.androidlocationmaps.api.Photo;
 import com.javapapers.android.androidlocationmaps.api.SearchApi;
 import com.javapapers.android.androidlocationmaps.fragment.GoogleMapFragment;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import com.squareup.picasso.Picasso;
-
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
-
 import retrofit.*;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
     private double latitude;
     private double longitude;
+    private String apiSig;
+    private String frob;
 
     private FragmentManager manager;
     private GoogleMapFragment googleMapFragment;
@@ -63,8 +63,7 @@ public class MainActivity extends AppCompatActivity {
         Uri uri = getIntent().getData();
 
         if (uri != null) {
-            String frob = uri.getQueryParameter("frob");
-            Log.i(TAG+"frob", frob);
+            frob = uri.getQueryParameter("frob");
         }
     }
 
@@ -89,10 +88,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendRequest() {
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("https://api.flickr.com")
                 .build();
+
+
+        retrofit.client().interceptors().add(logging);
 
         SearchApi searchApi = retrofit.create(SearchApi.class);
 
@@ -132,26 +138,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String apiSig2 = new String(Hex.encodeHex(DigestUtils.md5("6e732ab8487b05e4api_key5f45c46eaf6e87b55c9f36fec03e3466permswrite")));
+        apiSig = new String(Hex.encodeHex(DigestUtils.md5("6e732ab8487b05e4api_key5f45c46eaf6e87b55c9f36fec03e3466permswrite")));
 
-        Log.i(TAG + "apiSig2", apiSig2);
+        if(frob != null) {
+//            Log.i(TAG + "callGetTok", apiSig);
+            Log.i(TAG + "callGetTok", frob);
+            String apS = new String(Hex.encodeHex(DigestUtils.md5("6e732ab8487b05e4api_key5f45c46eaf6e87b55c9f36fec03e3466frob"+frob+"methodflickr.auth.getToken")));
+            Log.i(TAG + "apS", apS);
+            Call<String> callGetToken = searchApi.getToken(frob, "json",1, apS);
+            callGetToken.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Response<String> response, Retrofit retrofit) {
+                    Log.i(TAG+"callGetTok", response.toString());
+                    Log.i(TAG+"callGetTok", response.body().toString());
+                }
 
-//        Call<String> callAuth = searchApi.doAuth(apiSig2);
-//        callAuth.enqueue(new Callback<String>() {
-//            @Override
-//            public void onResponse(Response<String> response, Retrofit retrofit) {
-//                Log.i(TAG+"auth", response.toString());
-//                Log.i(TAG+"auth", response.body().toString());
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable t) {
-//                Toast.makeText(MainActivity.this, "auth "+t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-//            }
-//        });
+                @Override
+                public void onFailure(Throwable t) {
+                    Toast.makeText(MainActivity.this, "callGetToken "+t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 
     public void onAuth(View view) {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.flickr.com/services/auth/?api_key=5f45c46eaf6e87b55c9f36fec03e3466&perms=write&api_sig=9e61f86f3d3f8caf024a8bd1729d4ff3")));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.flickr.com/services/auth/?api_key=5f45c46eaf6e87b55c9f36fec03e3466&perms=write&api_sig=" + apiSig)));
     }
 }

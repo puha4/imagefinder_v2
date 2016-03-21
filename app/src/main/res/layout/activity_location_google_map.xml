@@ -11,7 +11,7 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_width="match_parent"
             app:theme="@style/ThemeOverlay.AppCompat.Dark"
-            android:background="@color/colorPrimary" />
+            android:background="@color/colorPrimary"/>
 
     <LinearLayout
             android:id="@+id/mapContainer"
@@ -35,9 +35,9 @@
             android:layout_height="wrap_content"
             android:text="Search"/>
     <Button
-        android:onClick="onAuth"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Auth"/>
+            android:onClick="onAuth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Auth"/>
 
 </LinearLayout>
